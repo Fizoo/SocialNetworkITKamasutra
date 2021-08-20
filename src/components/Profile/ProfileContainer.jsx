@@ -1,11 +1,9 @@
 import React from 'react';
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, savePhoto,  saveProfile, updateStatus} from "../../Redux/profile_reducer";
-import {withRouter} from "react-router";
-import {withAuthRedirect} from "../../hok/withAuthRedirect";
+import {getStatus, getUserProfile, savePhoto, saveProfile, updateStatus} from "../../redux/profile-reducer";
+import {withRouter} from "react-router-dom";
 import {compose} from "redux";
-
 
 class ProfileContainer extends React.Component {
 
@@ -14,11 +12,11 @@ class ProfileContainer extends React.Component {
         if (!userId) {
             userId = this.props.authorizedUserId;
             if (!userId) {
-                this.props.history.push('/login');
+                this.props.history.push("/login");
             }
         }
         this.props.getUserProfile(userId);
-        this.props.getStatus(userId)
+        this.props.getStatus(userId);
     }
 
     componentDidMount() {
@@ -26,7 +24,7 @@ class ProfileContainer extends React.Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+        if (this.props.match.params.userId != prevProps.match.params.userId ) {
             this.refreshProfile();
         }
     }
@@ -34,33 +32,30 @@ class ProfileContainer extends React.Component {
     render() {
         return (
             <Profile {...this.props}
-                     isOwner={!this.props.match.params.userId}
+                    isOwner={!this.props.match.params.userId}
                      profile={this.props.profile}
                      status={this.props.status}
                      updateStatus={this.props.updateStatus}
-                     savePhoto={this.props.savePhoto}
-                     saveProfile={this.props.saveProfile}
-
-            />
-        );
+                     savePhoto={this.props.savePhoto}/>
+        )
     }
 }
 
-let mapStateToProps = (state) => ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    authorizedUserId: state.auth.userId,
-    isAuth: state.auth.isAuth
-})
+let mapStateToProps = (state) => {
+    //console.log('mapStateToProps PROFILE')
+    return ({
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.userId,
+        isAuth: state.auth.isAuth
+    })
+}
 
 export default compose(
-    connect(mapStateToProps, {getUserProfile, getStatus, updateStatus,savePhoto,saveProfile}),
-    withRouter,
-    withAuthRedirect
-)(ProfileContainer)
+    connect(mapStateToProps, {getUserProfile, getStatus, updateStatus, savePhoto, saveProfile}),
+    withRouter
+)(ProfileContainer);
 
 
-/*
-let AuthRedirectComponent=withAuthRedirect(ProfileContainer);
-let WithUrlDataContainerComponent=  withRouter(AuthRedirectComponent)
- export default connect(mapStateToProps, {getUserProfile})(WithUrlDataContainerComponent);*/
+
+

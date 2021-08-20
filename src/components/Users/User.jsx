@@ -1,36 +1,31 @@
-import {NavLink} from "react-router-dom";
-import userPhoto from "../../assets/images/female.webp";
+import React from 'react';
 import styles from "./users.module.css";
-import React from "react";
+import userPhoto from "../../assets/images/user.png";
+import {NavLink} from "react-router-dom";
 
-const User=({user,followingInProgress,unfollow,follow})=> {
-    return(
-        <div >
+let User = ({user, followingInProgress, unfollow, follow}) => {
+    return (
+       <div>
                 <span>
                     <div>
-                        <NavLink to={'/profile/' + user.id}>
+                       <NavLink to={'/profile/' + user.id}>
                         <img src={user.photos.small != null ? user.photos.small : userPhoto}
                              className={styles.userPhoto}/>
-                             </NavLink>
-
+                       </NavLink>
                     </div>
                     <div>
-                        {
-                            user.followed
-                                ? <button disabled={followingInProgress.some(id => id === user.id)}
-                                          onClick={() => {
-                                              unfollow(user.id);
-                                          }}>Unfollow</button>
-
-                                : <button disabled={followingInProgress.some(id => id === user.id)}
-                                          onClick={() => {
-                                             follow(user.id)
-                                          }}>Follow</button>
-                        }
+                        {user.followed
+                            ? <button disabled={followingInProgress
+                                .some(id => id === user.id)}
+                                      onClick={() => { unfollow(user.id) }}>
+                                Unfollow</button>
+                            : <button disabled={followingInProgress.some(id => id === user.id)}
+                                      onClick={() => { follow(user.id) }}>
+                                      Follow</button>}
 
                     </div>
                 </span>
-        <span>
+                <span>
                     <span>
                         <div>{user.name}</div>
                         <div>{user.status}</div>
@@ -40,7 +35,7 @@ const User=({user,followingInProgress,unfollow,follow})=> {
                         <div>{"user.location.city"}</div>
                     </span>
                 </span>
-    </div>
-    )
+            </div>)
 }
+
 export default User;
