@@ -1,8 +1,11 @@
 import React from 'react';
 import s from '../MyPosts.module.css';
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 
-const AddPostForm = (props) => {
+interface PropsType {
+}
+
+const AddPostForm:React.FC<InjectedFormProps<AddPostFormValuesType, PropsType> & PropsType> = (props) => {
     return (
             <form onSubmit={props.handleSubmit}>
                 <div>
@@ -15,4 +18,8 @@ const AddPostForm = (props) => {
     )
 }
 
-export default reduxForm({form: 'profile-add-post'})(AddPostForm)
+export default reduxForm<AddPostFormValuesType,PropsType>({form: 'profile-add-post'})(AddPostForm)
+
+export type AddPostFormValuesType = {
+    newPostText: string
+}

@@ -1,13 +1,17 @@
 import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
 import {Textarea} from "../../common/FormsControls/FormsControls";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../../redux/redux-store";
+import {AddPostFormValuesType} from "./AddPostForm/AddPostForm";
+import {DispatchPropsType} from "./MyPostsContainer";
 
 const maxLength10 = maxLengthCreator(10);
 
-let AddNewPostForm = (props) => {
+let AddNewPostForm:React.FC<InjectedFormProps<AddPostFormValuesType>> = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
             <Field name="newPostText" component={Textarea} placeholder={"Post message"}
@@ -19,17 +23,21 @@ let AddNewPostForm = (props) => {
     </form>;
 }
 
-let AddNewPostFormRedux = reduxForm({form: "ProfileAddNewPostForm"})(AddNewPostForm);
+let AddNewPostFormRedux = reduxForm<AddPostFormValuesType,{}>({form: "ProfileAddNewPostForm"})(AddNewPostForm);
 
-const MyPosts = React.memo(props => {
+const MyPosts:React.FC<DispatchPropsType> = React.memo(props => {
+
+
+    const posts=useSelector((state: AppStateType)=>state.profilePage.posts)
+
+
     let postsElements =
-        [...props.posts]
+        [...posts]
             .reverse()
             .map(p => <Post key={p.id} message={p.message} likesCount={p.likesCount}/>);
 
-    let newPostElement = React.createRef();
 
-    let onAddPost = (values) => {
+    let onAddPost = (values:AddPostFormValuesType) => {
         props.addPost(values.newPostText);
     }
 
@@ -45,3 +53,4 @@ const MyPosts = React.memo(props => {
 });
 
 export default MyPosts;
+

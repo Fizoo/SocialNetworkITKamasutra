@@ -1,9 +1,7 @@
 import {ResultCodesEnum} from "../api/api";
 import {FormAction, stopSubmit} from "redux-form";
-import {PhotosType, PostsType, ProfileType} from "../types/types";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType, BaseThunkType, InferActionTypes} from "./redux-store";
-import {usersAPI} from "../api/users-api";
+import {PhotosType, PostType, ProfileType} from "../types/types";
+import {BaseThunkType, InferActionTypes} from "./redux-store";
 import {profileAPI} from "../api/profile-API";
 
 const ADD_POST = 'ADD-POST';
@@ -18,9 +16,9 @@ let initialState = {
         {id: 2, message: 'It\'s my first post', likesCount: 11},
         {id: 3, message: 'Blabla', likesCount: 11},
         {id: 4, message: 'Dada', likesCount: 11}
-    ] as Array<PostsType>,
+    ] as Array<PostType>,
     profile: null as null|ProfileType,
-    status: "" as string|null,
+    status: "" as string,
     newPostText:''
 };
 

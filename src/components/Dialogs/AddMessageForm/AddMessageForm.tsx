@@ -1,16 +1,13 @@
 import React, {FormEventHandler} from 'react';
-import {Field, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Textarea} from "../../common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
 
 const maxLength50 = maxLengthCreator(50);
 
 
-interface PropsType {
-    handleSubmit:FormEventHandler<HTMLFormElement> | undefined
-}
 
-const AddMessageForm:React.FC = (props:any) => {
+const AddMessageForm:React.FC<InjectedFormProps<NewMessageFormValuesType, PropsType> & PropsType> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
@@ -25,9 +22,14 @@ const AddMessageForm:React.FC = (props:any) => {
     )
 }
 
-export default reduxForm({form: 'dialog-add-message-form'})(AddMessageForm);
+export default reduxForm<NewMessageFormValuesType>({form: 'dialog-add-message-form'})(AddMessageForm);
 
+//type NewMessageFormValuesKeysType = Extract<keyof NewMessageFormValuesType, string>
+type PropsType = {}
 
+export type NewMessageFormValuesType = {
+    newMessageBody: string
+}
 
 
 

@@ -3,30 +3,34 @@ import s from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {Redirect} from "react-router-dom";
-import {Field, reduxForm} from "redux-form";
 import AddMessageForm from "./AddMessageForm/AddMessageForm";
-import {InitialState} from "../../redux/dialogs-reducer";
+import {actions} from "../../redux/dialogs-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "../../redux/redux-store";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
-interface PropsType {
-    dialogsPage:InitialState
-    isAuth:boolean
-    sendMessage:(values:string)=>void
 
-}
 
-const Dialogs:React.FC<PropsType> = (props) => {
+const Dialogs:React.FC = (props) => {
 
-    let state = props.dialogsPage;
+    const dispatch=useDispatch()
+    const isAuth=useSelector((state:AppStateType)=>state.auth.isAuth)
+    const dialogsPage=useSelector((state:AppStateType)=>state.dialogsPage)
+    const sendMessaged=(values:string)=>{
+        dispatch(actions.sendMessageCreator(values))
+    }
+    //let state = dialogsPage;
 
-    let dialogsElements = state.dialogs.map( d => <DialogItem name={d.name} key={d.id} id={d.id} />  );
-    let messagesElements = state.messages.map( m => <Message message={m.message} key={m.id} /> );
+    let dialogsElements = dialogsPage.dialogs.map( d => <DialogItem name={d.name} key={d.id} id={d.id} />  );
+    let messagesElements = dialogsPage.messages.map( m => <Message message={m.message} key={m.id} /> );
 
 
     let addNewMessage = (values:any) => {
-        props.sendMessage(values.newMessageBody);
+        sendMessaged(values.newMessageBody);
     }
 
-    if (!props.isAuth) return <Redirect to={"/login"} /> ;
+    if (!isAuth)
+        return <Redirect to={"/login"} /> ;
 
     return (
         <div className={s.dialogs}>
@@ -42,7 +46,7 @@ const Dialogs:React.FC<PropsType> = (props) => {
     )
 }
 
-export default Dialogs;
+export default  withAuthRedirect(Dialogs)
 
 
 
