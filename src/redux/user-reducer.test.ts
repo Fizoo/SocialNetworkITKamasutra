@@ -1,8 +1,9 @@
 import usersReducer, {actions, InitialStateType} from "./users-reducer";
-import {UserType} from "../types/types";
+
 let state:InitialStateType;
 
 beforeEach(() => {
+    // @ts-ignore
     state={
         users: [
             {

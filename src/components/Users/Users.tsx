@@ -7,15 +7,17 @@ import {useDispatch, useSelector} from "react-redux";
 import {getCurrentPage, getFollowingInProgress, getTotalUsersCount, getUsers} from "../../redux/users-selectors";
 import {AppStateType} from "../../redux/redux-store";
 import {follow,unfollow} from "../../redux/users-reducer";
+import {useHistory} from "react-router-dom";
+import *as queryString from "queryString";
+
 
 interface PropsType {
 }
 
 let Users:React.FC<PropsType> = ( props) => {
 
-    useEffect(()=>{
-        dispatch( requestUsers(currentPage, pageSize,filter))
-    },[])
+    const dispatch=useDispatch();
+    const history=useHistory()
 
     const totalUsersCount=useSelector(getTotalUsersCount)
     const currentPage=useSelector(getCurrentPage)
@@ -24,7 +26,19 @@ let Users:React.FC<PropsType> = ( props) => {
     const users=useSelector(getUsers)
     const followingInProgress=useSelector(getFollowingInProgress)
 
-    const dispatch=useDispatch();
+
+
+    useEffect(()=>{
+        history.push({
+            pathname:'/users',
+            search:`?term=${filter.term}&friend=${filter.friend}&page=${currentPage}`
+        })
+    },[filter,currentPage])
+
+    useEffect(()=>{
+        //const parsed=queryString.parse(history.location.search.substr(1))
+        dispatch( requestUsers(currentPage, pageSize,filter))
+    },[])
 
     const onPageChanged=(pageNumber:number)=>{
         dispatch(requestUsers(pageNumber, pageSize,filter))

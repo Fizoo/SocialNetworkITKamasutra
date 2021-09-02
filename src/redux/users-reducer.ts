@@ -1,7 +1,6 @@
-import {PhotosType, UserType} from "../types/types";
+import {UserType} from "../types/types";
 import {updateObjectInArray} from "../utils/object-helpers";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType, BaseThunkType, InferActionTypes} from "./redux-store";
+import {BaseThunkType, InferActionTypes} from "./redux-store";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/users-api";
 
@@ -59,7 +58,7 @@ const usersReducer = (state = initialState, action: ActionTypes): InitialStateTy
                 ...state,
                 followingInProgress: action.isFetching
                     ? [...state.followingInProgress, action.userId]
-                    : state.followingInProgress.filter(id => id != action.userId)
+                    : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
         case SET_FILTER:{
@@ -108,7 +107,7 @@ const _followUnfollowFlow = async (dispatch:Dispatch<ActionTypes>, userId: numbe
     dispatch(actions.toggleFollowingProgress(true, userId));
     let response = await apiMethod(userId);
 
-    if (response.resultCode == 0) {
+    if (response.resultCode === 0) {
         dispatch(actionCreator(userId));
     }
     dispatch(actions.toggleFollowingProgress(false, userId));

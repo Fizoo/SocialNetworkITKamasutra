@@ -20,13 +20,6 @@ export const instance = axios.create({
     }
 });
 
-interface ItemsType {
-    id: number
-    name: string
-    status: string
-    followed: boolean
-    photos:PhotosType
-}
 export type GetItemType ={
     items:Array<UserType>
     totalCount:number

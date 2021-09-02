@@ -15,7 +15,7 @@ const Header: React.FC = (props) => {
     const logouted=()=>dispatch(logout())
 
     return <header className={s.header}>
-        <img src='https://www.freelogodesign.org/Content/img/logo-ex-7.png' />
+        <img src='https://www.freelogodesign.org/Content/img/logo-ex-7.png' alt='Logo'/>
 
         <div className={s.loginBlock}>
             { isAuth

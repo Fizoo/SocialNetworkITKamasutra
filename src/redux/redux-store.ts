@@ -26,11 +26,12 @@ const store = createStore(reducers,  composeEnhancers(applyMiddleware(thunkMiddl
 // @ts-ignore
 window.__store__ = store;
 
-type RootReducers=typeof reducers;
-export type AppStateType=ReturnType<RootReducers>
+//type RootReducers=typeof reducers;
+export type AppStateType=ReturnType<typeof reducers>
 
-type PropertiesTypes<T> =T extends {[key:string]:infer U}?U:never
-export type InferActionTypes<T extends {[key:string]:(...args:any[])=>any}> =ReturnType<PropertiesTypes<T>>
+//type PropertiesTypes<T> =T extends {[key:string]:infer U}?U:never
+//export type InferActionTypes<T extends {[key:string]:(...args:any[])=>any}> =ReturnType<PropertiesTypes<T>>
+export type InferActionTypes<T> =T extends {[key:string]:(...args:any[])=>infer U}?U:never
 
 export type BaseThunkType<A extends Action,R=Promise<void>> =ThunkAction<R, AppStateType, unknown, A>
 

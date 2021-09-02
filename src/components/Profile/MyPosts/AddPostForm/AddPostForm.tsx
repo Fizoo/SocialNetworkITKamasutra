@@ -1,6 +1,7 @@
 import React from 'react';
-import s from '../MyPosts.module.css';
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
+import {InjectedFormProps, reduxForm} from "redux-form";
+import {createField, GetStringKeys, Textarea} from "../../../common/FormsControls/FormsControls";
+import {required} from "../../../../utils/validators/validators";
 
 interface PropsType {
 }
@@ -9,7 +10,9 @@ const AddPostForm:React.FC<InjectedFormProps<AddPostFormValuesType, PropsType> &
     return (
             <form onSubmit={props.handleSubmit}>
                 <div>
-                    <Field component={"textarea"} name="postText"/>
+                    {
+                        createField<KeysType>('Your post','newPostText',[required],Textarea)
+                    }
                 </div>
                 <div>
                     <button>Add post</button>
@@ -23,3 +26,4 @@ export default reduxForm<AddPostFormValuesType,PropsType>({form: 'profile-add-po
 export type AddPostFormValuesType = {
     newPostText: string
 }
+type KeysType=GetStringKeys<AddPostFormValuesType>

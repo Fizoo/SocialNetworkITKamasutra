@@ -1,7 +1,5 @@
 import React from 'react';
 import s from './Post.module.css';
-import {useSelector} from "react-redux";
-import {AppStateType} from "../../../../redux/redux-store";
 
 
 interface PropsType {

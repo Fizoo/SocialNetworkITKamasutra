@@ -14,7 +14,7 @@ let initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It\'s my first post', likesCount: 11},
-        {id: 3, message: 'Blabla', likesCount: 11},
+        {id: 3, message: 'Bilabial', likesCount: 11},
         {id: 4, message: 'Dada', likesCount: 11}
     ] as Array<PostType>,
     profile: null as null|ProfileType,
@@ -47,7 +47,7 @@ const profileReducer = (state = initialState, action:ActionTypes):InitialStateTy
         }
 
         case DELETE_POST:
-            return {...state, posts: state.posts.filter(p => p.id != action.postId)}
+            return {...state, posts: state.posts.filter(p => p.id !== action.postId)}
 
         case SAVE_PHOTO_SUCCESS:
             debugger;
@@ -65,7 +65,7 @@ export const actions = {
      savePhotoSuccess : (photos:PhotosType)=> ({type: SAVE_PHOTO_SUCCESS, photos} as const)
 }
 
-export const getUserProfile = (userId:number):ThunkType => async (dispatch:any) => {
+export const getUserProfile = (userId:number):ThunkType => async (dispatch) => {
     const response = await profileAPI.getProfile(userId);
     dispatch(actions.setUserProfile(response));
 }

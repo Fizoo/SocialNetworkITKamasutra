@@ -1,6 +1,6 @@
 import React from "react";
 import s from './ProfileInfo.module.css';
-import {createField, Input, Textarea} from "../../common/FormsControls/FormsControls";
+import {createField, GetStringKeys, Input, Textarea} from "../../common/FormsControls/FormsControls";
 import {InjectedFormProps, reduxForm} from "redux-form";
 import style from "../../common/FormsControls/FormsControls.module.css";
 import {ProfileType} from "../../../types/types";
@@ -8,6 +8,7 @@ import {ProfileType} from "../../../types/types";
 interface PropsType {
     profile:ProfileType
 }
+type ProfileKeysType=GetStringKeys<ProfileType>
 
 const ProfileDataForm:React.FC<InjectedFormProps<ProfileType,PropsType>&PropsType> = ({handleSubmit, profile, error}) => {
     return <form onSubmit={handleSubmit}>
@@ -17,21 +18,21 @@ const ProfileDataForm:React.FC<InjectedFormProps<ProfileType,PropsType>&PropsTyp
         </div>
         }
         <div>
-            <b>Full name</b>: {createField("Full name", "fullName", [], Input)}
+            <b>Full name</b>: {createField<ProfileKeysType>("Full name", "fullName", [], Input)}
         </div>
         <div>
-            <b>Looking for a job</b>: { createField("", "lookingForAJob", [], Input, {type: "checkbox"} )}
+            <b>Looking for a job</b>: { createField<ProfileKeysType>("", "lookingForAJob", [], Input, {type: "checkbox"} )}
         </div>
 
         <div>
             <b>My professional skills</b>:
-            { createField("My professional skills", "lookingForAJobDescription", [], Textarea  )}
+            { createField<ProfileKeysType>("My professional skills", "lookingForAJobDescription", [], Textarea  )}
         </div>
 
 
         <div>
             <b>About me</b>:
-            { createField("About me", "aboutMe", [], Textarea  )}
+            { createField<ProfileKeysType>("About me", "aboutMe", [], Textarea  )}
         </div>
         <div>
             <b>Contacts</b>: {Object.keys(profile.contacts).map(key => {
