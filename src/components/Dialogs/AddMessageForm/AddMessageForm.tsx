@@ -16,7 +16,7 @@ const AddMessageForm:React.FC<InjectedFormProps<NewMessageFormValuesType, PropsT
                        placeholder='Enter your message' name="newMessageBody" />
             </div>
             <div>
-                <button>Send222</button>
+                <button>Send</button>
             </div>
         </form>
     )

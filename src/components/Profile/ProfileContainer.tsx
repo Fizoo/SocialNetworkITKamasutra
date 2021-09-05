@@ -15,10 +15,12 @@ const ProfilePro:React.FC<PropsType> =(props)=>{
     const updateStatused=(status:string)=>dispatch(updateStatus(status))
     const savePhotos=(file:File)=>dispatch(savePhoto(file))
 
+    const own:boolean=!props.match.params.userId
+
 
     return(
         <Profile {...props}
-                 isOwner={!props.match.params.userId}
+                 isOwner={own}
                  profile={profile}
                  status={status}
                  updateStatus={updateStatused}
